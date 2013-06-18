@@ -1,13 +1,13 @@
 #include "Window.hpp"
 
-Window::Window(void) : _input(), _modes(VIDEO_MODES_LIMIT, VideoMode(this)), _desktopMode(VideoMode(this))
+Window::Window(void) : _modes(VIDEO_MODES_LIMIT, VideoMode(this)), _desktopMode(VideoMode(this)), _input()
 {
 	if (!glfwInit())
 		throw std::runtime_error("Could not initialize GLFW (glfwInit() returned 0) ! Exiting...");
 	glewExperimental = true;
 	GLFWvidmode *vidmode = new GLFWvidmode[VIDEO_MODES_LIMIT];
 	int nb_modes = glfwGetVideoModes(vidmode, VIDEO_MODES_LIMIT);
-	_modes.resize(nb_modes);
+	_modes.resize(nb_modes, VideoMode(this));
 	for (int i = 0 ; i < nb_modes ; ++i)
 	{
 		_modes[i].setHeight(vidmode[i].Height);
@@ -78,12 +78,12 @@ void Window::openWindow(int width, int height, int bpp, bool isFullScreen) const
 	if (!glfwOpenWindow(width, height, 0, 0, 0, 0, bpp, 0, isFullScreen ? GLFW_FULLSCREEN : GLFW_WINDOW))
 	{
 		glfwTerminate();
-		throw new std::runtime_error("Could not open window (glfwOpenWindow() returned 0) ! Exiting...");
+		throw std::runtime_error("Could not open window (glfwOpenWindow() returned 0) ! Exiting...");
 	}
 
 	glfwSetWindowTitle(_flags.getTitle().c_str());
 	if (glewInit() != GLEW_OK)
-		throw new std::runtime_error("Could not initalize GLEW (glewInit() did not return GLEW_OK) ! Exiting...");	
+		throw std::runtime_error("Could not initalize GLEW (glewInit() did not return GLEW_OK) ! Exiting...");	
 }
 
 void Window::run()
