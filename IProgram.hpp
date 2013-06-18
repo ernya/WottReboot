@@ -1,8 +1,8 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <GL/glfw.h>
 #include <glm/glm.hpp>
 
