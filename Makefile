@@ -12,7 +12,7 @@ SRC=	Input.cpp\
 	VideoMode.cpp\
 	Window.cpp
 OBJ=$(SRC:.cpp=.o)
-CXXFLAGS= -W -Wall -g
+CXXFLAGS= -W -Wall -g -std=c++11
 LDFLAGS= -lGL -lGLU -lGLEW -lglfw
 
 $(NAME): $(OBJ)
