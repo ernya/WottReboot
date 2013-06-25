@@ -88,6 +88,7 @@
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexAttrib.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexBufferData.cpp" />
     <ClCompile Include="VideoFlags.cpp" />
     <ClCompile Include="VideoMode.cpp" />
     <ClCompile Include="Window.cpp" />
