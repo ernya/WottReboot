@@ -23,5 +23,6 @@ int	main(int argc, char **argv)
 		std::cin >> null;
 		return EXIT_FAILURE;
 	}
+	std::cout << "Program Exited Successfully" << std::endl;
 	return EXIT_SUCCESS;
 }
