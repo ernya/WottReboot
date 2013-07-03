@@ -90,6 +90,7 @@ void Window::run()
 {
 	do 
 	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		for (std::list<IUpdatable *>::iterator it = _updatableObjects.begin() ; it != _updatableObjects.end() ; ++it)
 			(*it)->update();
 		for (std::list<IDrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)

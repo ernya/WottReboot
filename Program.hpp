@@ -4,7 +4,7 @@
 
 #include "IProgram.hpp"
 
-class Program : IProgram
+class Program : public IProgram
 {
 protected:
 	GLuint _id;
@@ -17,6 +17,16 @@ public:
 	void link() const
 	{
 		glLinkProgram(_id);
+		GLint error;
+		glGetProgramiv(_id, GL_LINK_STATUS, &error);
+		if (error != GL_TRUE)
+		{
+			glGetProgramiv(_id, GL_INFO_LOG_LENGTH, &error);
+			char *errorlog = new char[error];
+			glGetProgramInfoLog(_id, error, NULL, errorlog);
+			std::cerr << "FAIL LINK" << std::endl;
+			std::cerr << errorlog << std::endl;
+		}
 	}
 
 	void attach(const IShader &id) const
@@ -24,9 +34,14 @@ public:
 		glAttachShader(_id, id.getId());
 	}
 
-	GLuint getId() const
+	void useProgram() const
 	{
-		return _id;
+		glUseProgram(_id);
+	}
+
+	void stopUseProgram() const
+	{
+		glUseProgram(0);
 	}
 
 	GLuint getAttribLocation(const std::string &attrib) const

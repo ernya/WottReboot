@@ -1,7 +1,8 @@
 #include "SimpleFragmentShader.hpp"
 #include "ShaderTools.hpp"
+#include "Global.hpp"
 
-SimpleFragmentShader::SimpleFragmentShader() : AShader(ShaderTools::loadShaderFile("fs.txt"), AShader::VERTEX_SHADER)
+SimpleFragmentShader::SimpleFragmentShader() : AShader(ShaderTools::loadShaderFile("fs.txt"), AShader::FRAGMENT_SHADER)
 {
 }
 

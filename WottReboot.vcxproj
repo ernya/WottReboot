@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AShader.hpp" />
+    <ClInclude Include="Global.hpp" />
     <ClInclude Include="IDrawable.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="IObject.hpp" />

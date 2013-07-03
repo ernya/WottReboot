@@ -3,13 +3,16 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include "Global.hpp"
 
 class ShaderTools
 {
 public:
 	static const std::string loadShaderFile(const std::string &filename)
 	{
-		std::ifstream fichier (filename.c_str());
+		std::string fullpath(ROOTSHADERSPATH);
+		fullpath.append(filename);
+		std::ifstream fichier (fullpath.c_str());
 
 		if (fichier)
 		{
