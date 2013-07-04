@@ -14,6 +14,7 @@ int	main(int argc, char **argv)
 		flags.setResizable(true);
 		_win.getDesktopVideoMode().createWindow();
 		_win.addObject(new Triangle());
+		_win.setClearColor(Color(0, 0, 0.4f, 1.0f));
 		_win.run();
 	}
 	catch (std::runtime_error e)

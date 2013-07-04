@@ -9,8 +9,9 @@
 #include "IUpdatable.hpp"
 #include "VertexBufferData.hpp"
 #include "VertexAttrib.hpp"
+#include "I3DObject.hpp"
 
-class Triangle : public IDrawable, public IUpdatable
+class Triangle : public IDrawable, public IUpdatable, public I3DObject
 {
 private:
 	Window *_win;
@@ -28,5 +29,6 @@ public :
 	void draw();
 	void update();
 	void unload();
+	I3DObject &applyMatrix(const I3DMatrix &matrix);
 	~Triangle();
 };

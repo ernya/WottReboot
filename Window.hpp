@@ -14,6 +14,7 @@
 #include "IDrawable.hpp"
 #include "VideoMode.hpp"
 #include "Input.hpp"
+#include "Color.hpp"
 
 using namespace glm;
 
@@ -46,6 +47,7 @@ public:
 	const VideoFlags &getVideoFlags() const {return _flags;}
 	VideoFlags &getVideoFlags() {return _flags;}
 	void addObject(IObject *object);
+	void setClearColor(Color color) const;
 };
 
 

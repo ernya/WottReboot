@@ -1,4 +1,5 @@
 #include "Triangle.hpp"
+#include "Translation.hpp"
 
 Triangle::Triangle()
 {
@@ -47,10 +48,8 @@ void Triangle::load()
 
 void Triangle::update()
 {
-	for (int i = 0 ; i < 9 ; ++i)
-	{
-		(*_vbd)[i] = ((float)(rand() % 10000) - 5000) / 5000;
-	}
+	Translation t(0.001, 0, 0);
+	applyMatrix(t);
 	_vao.bind();
 	_vbo.bind();
 	_vbo.data(*_vbd);
@@ -71,6 +70,38 @@ void Triangle::draw()
 
 void Triangle::unload()
 {
+}
+
+I3DObject &Triangle::applyMatrix(const I3DMatrix &matrix)
+{
+	glm::vec4 pt1;
+	pt1[0] = (*_vbd)[0];
+	pt1[1] = (*_vbd)[1];
+	pt1[2] = (*_vbd)[2];
+	pt1[3] = 1;
+	glm::vec4 pt2;
+	pt2[0] = (*_vbd)[3];
+	pt2[1] = (*_vbd)[4];
+	pt2[2] = (*_vbd)[5];
+	pt2[3] = 1;
+	glm::vec4 pt3;
+	pt3[0] = (*_vbd)[6];
+	pt3[1] = (*_vbd)[7];
+	pt3[2] = (*_vbd)[8];
+	pt3[3] = 1;
+	glm::vec4 pt1_ = matrix.getMatrix() * pt1;
+	glm::vec4 pt2_ = matrix.getMatrix() * pt2;
+	glm::vec4 pt3_ = matrix.getMatrix() * pt3;
+	(*_vbd)[0] = pt1_[0];
+	(*_vbd)[1] = pt1_[1];
+	(*_vbd)[2] = pt1_[2];
+	(*_vbd)[3] = pt2_[0];
+	(*_vbd)[4] = pt2_[1];
+	(*_vbd)[5] = pt2_[2];
+	(*_vbd)[6] = pt3_[0];
+	(*_vbd)[7] = pt3_[1];
+	(*_vbd)[8] = pt3_[2];
+	return *this;
 }
 
 Triangle::~Triangle()

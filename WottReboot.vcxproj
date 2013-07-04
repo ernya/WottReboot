@@ -80,10 +80,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SimpleFragmentShader.cpp" />
     <ClCompile Include="SimpleVertexShader.cpp" />
+    <ClCompile Include="Translation.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexAttrib.cpp" />
@@ -95,7 +97,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AShader.hpp" />
+    <ClInclude Include="Color.hpp" />
     <ClInclude Include="Global.hpp" />
+    <ClInclude Include="I3DMatrix.hpp" />
+    <ClInclude Include="I3DObject.hpp" />
     <ClInclude Include="IDrawable.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="IObject.hpp" />
@@ -106,6 +111,7 @@
     <ClInclude Include="ShaderTools.hpp" />
     <ClInclude Include="SimpleFragmentShader.hpp" />
     <ClInclude Include="SimpleVertexShader.hpp" />
+    <ClInclude Include="Translation.hpp" />
     <ClInclude Include="Triangle.hpp" />
     <ClInclude Include="VertexArray.hpp" />
     <ClInclude Include="VertexAttrib.hpp" />

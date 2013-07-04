@@ -100,6 +100,11 @@ void Window::run()
 	while (!_input.isPressed(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED));
 }
 
+void Window::setClearColor(Color color) const
+{
+	glClearColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+}
+
 Window::~Window(void)
 {
 	for (std::list<IDrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
