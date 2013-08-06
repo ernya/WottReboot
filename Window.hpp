@@ -11,7 +11,7 @@
 
 #include "VideoFlags.hpp"
 #include "IUpdatable.hpp"
-#include "IDrawable.hpp"
+#include "ADrawable.hpp"
 #include "VideoMode.hpp"
 #include "Input.hpp"
 #include "Color.hpp"
@@ -20,17 +20,19 @@ using namespace glm;
 
 #define VIDEO_MODES_LIMIT 100
 
+class ADrawable;
+
 class Window
 {
 private:
 	std::list<IUpdatable *> _updatableObjects;
-	std::list<IDrawable *> _drawableObjects;
+	std::list<ADrawable *> _drawableObjects;
 	VideoFlags _flags;
 	std::vector<VideoMode> _modes;
 	VideoMode _desktopMode;
 	const Input _input;
 protected:
-	void addDrawable(IDrawable *drawable);
+	void addDrawable(ADrawable *drawable);
 	void addUpdatable(IUpdatable *updatable);
 public:
 	static const int OPENGL_VERSION_MAJOR = 3;
@@ -38,7 +40,7 @@ public:
 	Window(void);
 	virtual ~Window(void);
 	const std::list<IUpdatable *> &getUpdatables() const { return _updatableObjects; }
-	const std::list<IDrawable *> &getDrawables() const { return _drawableObjects; }
+	const std::list<ADrawable *> &getDrawables() const { return _drawableObjects; }
 	const VideoMode &getBestVideoMode() const;
 	const VideoMode &getDesktopVideoMode() const;
 	const std::vector<VideoMode> &getVideoModes() const;

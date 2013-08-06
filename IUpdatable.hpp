@@ -1,8 +1,8 @@
 #pragma once
 
-#include "IObject.hpp"
+#include "AObject.hpp"
 
-class IUpdatable : public virtual IObject
+class IUpdatable : public virtual AObject
 {
 public :
 	virtual void update() = 0;

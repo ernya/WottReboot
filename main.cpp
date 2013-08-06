@@ -12,7 +12,12 @@ int	main(int argc, char **argv)
 		flags.setFSAASamples(VideoFlags::FSAA_2X);
 		flags.setRefreshRate(VideoFlags::DEFAULT_REFRESH_RATE);
 		flags.setResizable(true);
-		_win.getDesktopVideoMode().createWindow();
+		VideoMode toto(&_win);
+		toto.setBpp(32);
+		toto.setHeight(768);
+		toto.setWidth(1024);
+		toto.createWindow();
+//		_win.getDesktopVideoMode().createWindow();
 		_win.addObject(new Triangle());
 		_win.setClearColor(Color(0, 0, 0.4f, 1.0f));
 		_win.run();

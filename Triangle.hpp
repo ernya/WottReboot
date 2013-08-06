@@ -5,20 +5,19 @@
 #include "SimpleVertexShader.hpp"
 #include "VertexBuffer.hpp"
 #include "VertexArray.hpp"
-#include "IDrawable.hpp"
+#include "ADrawable.hpp"
 #include "IUpdatable.hpp"
 #include "VertexBufferData.hpp"
 #include "VertexAttrib.hpp"
 #include "I3DObject.hpp"
 
-class Triangle : public IDrawable, public IUpdatable, public I3DObject
+class Triangle : public ADrawable, public IUpdatable
 {
 private:
 	Window *_win;
 	VertexAttrib *_va;
 	VertexArray _vao;
 	VertexBuffer _vbo;
-	VertexBufferData<float>	*_vbd;
 	SimpleFragmentShader *_fs;
 	SimpleVertexShader *_vs;
 	Program *_program;

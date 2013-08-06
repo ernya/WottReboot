@@ -80,9 +80,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AObject.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="GeometryHandler.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Rotation.cpp" />
+    <ClCompile Include="Scale.cpp" />
     <ClCompile Include="SimpleFragmentShader.cpp" />
     <ClCompile Include="SimpleVertexShader.cpp" />
     <ClCompile Include="Translation.cpp" />
@@ -96,18 +100,22 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AObject.hpp" />
     <ClInclude Include="AShader.hpp" />
     <ClInclude Include="Color.hpp" />
+    <ClInclude Include="GeometryHandler.hpp" />
     <ClInclude Include="Global.hpp" />
     <ClInclude Include="I3DMatrix.hpp" />
     <ClInclude Include="I3DObject.hpp" />
-    <ClInclude Include="IDrawable.hpp" />
+    <ClInclude Include="ADrawable.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="IObject.hpp" />
     <ClInclude Include="IProgram.hpp" />
     <ClInclude Include="IShader.hpp" />
     <ClInclude Include="IUpdatable.hpp" />
     <ClInclude Include="Program.hpp" />
+    <ClInclude Include="Rotation.hpp" />
+    <ClInclude Include="Scale.hpp" />
     <ClInclude Include="ShaderTools.hpp" />
     <ClInclude Include="SimpleFragmentShader.hpp" />
     <ClInclude Include="SimpleVertexShader.hpp" />

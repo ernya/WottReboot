@@ -60,7 +60,7 @@ public:
 		return _type;
 	}
 
-	void resize(int size) const
+	void resize(int size)
 	{
 		_vertices.resize(size);
 	}

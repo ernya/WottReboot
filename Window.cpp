@@ -23,7 +23,7 @@ Window::Window(void) : _modes(VIDEO_MODES_LIMIT, VideoMode(this)), _desktopMode(
 	delete (desktopmode);
 }
 
-void Window::addDrawable(IDrawable *drawable)
+void Window::addDrawable(ADrawable *drawable)
 {
 	drawable->load();
 	_drawableObjects.push_back(drawable);
@@ -36,7 +36,7 @@ void Window::addUpdatable(IUpdatable *updatable)
 
 void Window::addObject(IObject *object)
 {
-	IDrawable *drawable = dynamic_cast<IDrawable *>(object);
+	ADrawable *drawable = dynamic_cast<ADrawable *>(object);
 	IUpdatable *updatable = dynamic_cast<IUpdatable *>(object);
 	object->init(this);
 	if (drawable)
@@ -93,8 +93,8 @@ void Window::run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		for (std::list<IUpdatable *>::iterator it = _updatableObjects.begin() ; it != _updatableObjects.end() ; ++it)
 			(*it)->update();
-		for (std::list<IDrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
-			(*it)->draw();
+		for (std::list<ADrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
+			(*it)->internal_draw();
 		glfwSwapBuffers();
 	}
 	while (!_input.isPressed(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED));
@@ -107,7 +107,7 @@ void Window::setClearColor(Color color) const
 
 Window::~Window(void)
 {
-	for (std::list<IDrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
+	for (std::list<ADrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
 	{
 		(*it)->unload();
 		delete (*it);
