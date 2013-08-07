@@ -15,12 +15,12 @@ glm::vec4 &GeometryHandler::operator[](int idx)
 	return _points[idx];
 }
 
-void GeometryHandler::add(glm::vec4 &pt)
+void GeometryHandler::add(const glm::vec4 &pt)
 {
 	_points.push_back(pt);
 }
 
-void GeometryHandler::add(glm::vec3 &pt)
+void GeometryHandler::add(const glm::vec3 &pt)
 {
 	_points.push_back(glm::vec4(pt, 1));
 }
