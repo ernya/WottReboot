@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "Logging.hpp"
 #include "IProgram.hpp"
 
 class Program : public IProgram
@@ -24,8 +25,8 @@ public:
 			glGetProgramiv(_id, GL_INFO_LOG_LENGTH, &error);
 			char *errorlog = new char[error];
 			glGetProgramInfoLog(_id, error, NULL, errorlog);
-			std::cerr << "FAIL LINK" << std::endl;
-			std::cerr << errorlog << std::endl;
+			Logging::error("FAIL LINK");
+			Logging::error(errorlog);
 		}
 	}
 

@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include "Logging.hpp"
 
 Window::Window(void) : _modes(VIDEO_MODES_LIMIT, VideoMode(this)), _desktopMode(VideoMode(this)), _input()
 {

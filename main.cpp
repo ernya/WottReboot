@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Window.hpp"
 #include "Triangle.hpp"
+#include "Logging.hpp"
 
 int	main(int argc, char **argv)
 {
@@ -24,11 +25,13 @@ int	main(int argc, char **argv)
 	}
 	catch (std::runtime_error e)
 	{
-		std::cerr << e.what() << std::endl;
+		Logging::fatal(e.what());
+		Logging::end();
 		int null;
 		std::cin >> null;
 		return EXIT_FAILURE;
 	}
-	std::cout << "Program Exited Successfully" << std::endl;
+	Logging::info("Program Exited Successfully");
+	Logging::end();
 	return EXIT_SUCCESS;
 }

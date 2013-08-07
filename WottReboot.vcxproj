@@ -84,6 +84,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="GeometryHandler.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Logging.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="Scale.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="IProgram.hpp" />
     <ClInclude Include="IShader.hpp" />
     <ClInclude Include="IUpdatable.hpp" />
+    <ClInclude Include="Logging.hpp" />
     <ClInclude Include="Program.hpp" />
     <ClInclude Include="Rotation.hpp" />
     <ClInclude Include="Scale.hpp" />

@@ -37,6 +37,7 @@ protected:
 public:
 	static const int OPENGL_VERSION_MAJOR = 3;
 	static const int OPENGL_VERSION_MINOR = 3;
+	static const int OPENGL_VERSION_MINOR_FALLBACK = 0;
 	Window(void);
 	virtual ~Window(void);
 	const std::list<IUpdatable *> &getUpdatables() const { return _updatableObjects; }
