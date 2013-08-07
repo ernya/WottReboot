@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
 #include "I3DObject.hpp"
 
 class I3DMatrix : public I3DObject
