@@ -7,6 +7,7 @@
 Window::Window(void) : _modes(VIDEO_MODES_LIMIT, VideoMode(this)), _desktopMode(VideoMode(this)), _input()
 {
 	_mutex = new WinMutex();
+	_mutexLoading = new WinMutex();
 	if (!glfwInit())
 		throw std::runtime_error("Could not initialize GLFW (glfwInit() returned 0) ! Exiting...");
 	glewExperimental = true;
@@ -121,6 +122,14 @@ void Window::run()
 			(*it)->internal_draw();
 		_mutex->unlock();
 		glfwSwapBuffers();
+		_mutexLoading->lock();
+		for (std::list<std::pair<void (*)(void *), void*> >::iterator it = _pendingRenderingActions[ExecutionPriority::HIGHEST].begin() ; it != _pendingRenderingActions[ExecutionPriority::HIGHEST].end() ;)
+		{
+			(*it).first((*it).second);
+			std::list<std::pair<void (*)(void *), void*> >::iterator ittmp = it++;
+			_pendingRenderingActions[ExecutionPriority::HIGHEST].erase(ittmp);
+		}
+		_mutexLoading->unlock();
 	}
 	while (!_input.isPressed(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED));
 }
@@ -142,6 +151,7 @@ Window::~Window(void)
 		(*it)->unload();
 		delete (*it);
 	}
+	delete _mutexLoading;
 	delete _mutex;
 	glfwTerminate();
 }

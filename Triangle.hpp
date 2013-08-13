@@ -23,6 +23,7 @@ private:
 	Program *_program;
 public :
 	Triangle();
+	void internalLoad();
 	void init(Window *win);
 	void load();
 	void draw();

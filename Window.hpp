@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <list>
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -27,8 +28,18 @@ class ADrawable;
 
 class Window
 {
+public:
+	enum ExecutionPriority
+	{
+		LOWEST,
+		LOW,
+		NORMAL,
+		HIGH,
+		HIGHEST
+	};
 private:
 	IMutex *_mutex;
+	IMutex *_mutexLoading;
 	std::list<IThread<std::pair<Window &, IObject *> *> *> _loadingThreads;
 	std::list<IUpdatable *> _updatableObjects;
 	std::list<ADrawable *> _drawableObjects;
@@ -36,10 +47,19 @@ private:
 	std::vector<VideoMode> _modes;
 	VideoMode _desktopMode;
 	const Input _input;
+	std::map<ExecutionPriority, std::list<std::pair<void (*)(void *), void *> > > _pendingRenderingActions;
 protected:
 	void addDrawable(ADrawable *drawable);
 	void addUpdatable(IUpdatable *updatable);
 public:
+	template <typename Argument>
+	void execOnRenderingThread(void (*ptr)(Argument), ExecutionPriority priority, Argument arg)
+	{
+		_mutexLoading->lock();
+		_pendingRenderingActions[priority].push_back(std::make_pair(reinterpret_cast<void (*)(void *)>(ptr), reinterpret_cast<void *>(arg)));
+		_mutexLoading->unlock();
+	}
+
 	static const int OPENGL_VERSION_MAJOR = 3;
 	static const int OPENGL_VERSION_MINOR = 3;
 	static const int OPENGL_VERSION_MINOR_FALLBACK = 0;

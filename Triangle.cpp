@@ -11,13 +11,14 @@ void Triangle::init(Window *win)
 {
 	_fs = new SimpleFragmentShader();
 	_vs = new SimpleVertexShader();
-	_fs->compile();
-	_vs->compile();
+	
 	_program = new Program();
-	_program->attach(*_fs);
-	_program->attach(*_vs);
-	_program->link();
 	_win = win;
+}
+
+static void callback(Triangle *ptr)
+{
+	ptr->internalLoad();
 }
 
 void Triangle::load()
@@ -25,6 +26,17 @@ void Triangle::load()
 	_geometry.add(glm::vec3(-1.0f, -1.0f, 0.0f));
 	_geometry.add(glm::vec3(1.0f, -1.0f, 0.0f));
 	_geometry.add(glm::vec3(0.0f, 1.0f, 0.0f));
+	setScale(0.1f, 0.1f, 0.1f);
+	_win->execOnRenderingThread(callback, Window::ExecutionPriority::HIGHEST, this);
+}
+
+void Triangle::internalLoad()
+{
+	_fs->compile();
+	_vs->compile();
+	_program->attach(*_fs);
+	_program->attach(*_vs);
+	_program->link();
 	_va = new VertexAttrib(*_program, "vertexPosition_modelspace");
 	_vao.bind();
 	_vbo.bind();
@@ -34,7 +46,6 @@ void Triangle::load()
 	_va->disable();
 	_vbo.unbind();
 	_vao.unbind();
-	setScale(0.1f, 0.1f, 0.1f);
 }
 
 void Triangle::update()
