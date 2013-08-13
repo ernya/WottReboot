@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fstream>
+#include <iostream>
 #include <map>
 #include "Global.hpp"
 
@@ -24,6 +25,8 @@ public:
 
 	static void log(error_level lvl, const std::string &message)
 	{
+		if (lvl > E_ERROR)
+			std::cout <<  _errorHeaders.at(lvl) << message << std::endl;
 		if (_file->fail())
 		{
 			return ;

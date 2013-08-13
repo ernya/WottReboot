@@ -18,6 +18,9 @@
 
 using namespace glm;
 
+#include "IThread.hpp"
+#include "IMutex.hpp"
+
 #define VIDEO_MODES_LIMIT 100
 
 class ADrawable;
@@ -25,6 +28,8 @@ class ADrawable;
 class Window
 {
 private:
+	IMutex *_mutex;
+	std::list<IThread<std::pair<Window &, IObject *> *> *> _loadingThreads;
 	std::list<IUpdatable *> _updatableObjects;
 	std::list<ADrawable *> _drawableObjects;
 	VideoFlags _flags;
@@ -50,6 +55,7 @@ public:
 	const VideoFlags &getVideoFlags() const {return _flags;}
 	VideoFlags &getVideoFlags() {return _flags;}
 	void addObject(IObject *object);
+void addObjectBlocking(IObject *object);
 	void setClearColor(Color color) const;
 };
 

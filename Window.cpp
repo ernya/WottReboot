@@ -1,8 +1,12 @@
 #include "Window.hpp"
 #include "Logging.hpp"
 
+#include "WinThread.hpp" 
+#include "WinMutex.hpp" 
+
 Window::Window(void) : _modes(VIDEO_MODES_LIMIT, VideoMode(this)), _desktopMode(VideoMode(this)), _input()
 {
+	_mutex = new WinMutex();
 	if (!glfwInit())
 		throw std::runtime_error("Could not initialize GLFW (glfwInit() returned 0) ! Exiting...");
 	glewExperimental = true;
@@ -35,15 +39,33 @@ void Window::addUpdatable(IUpdatable *updatable)
 	_updatableObjects.push_back(updatable);
 }
 
+static int addObjectInternal(std::pair<Window &, IObject *> *_arg)
+{
+	_arg->first.addObjectBlocking(_arg->second);
+	delete _arg;
+	return EXIT_SUCCESS;
+}
+
 void Window::addObject(IObject *object)
+{
+	object->init(this);
+	std::pair<Window &, IObject *> *pair = new std::pair<Window &, IObject *>(*this, object);
+    WinThread<std::pair<Window &, IObject *>*> *tmp = new WinThread<std::pair<Window &, IObject *>*>();
+	tmp->run(addObjectInternal, pair);
+	_loadingThreads.push_back(tmp);
+	
+}
+
+void Window::addObjectBlocking(IObject *object)
 {
 	ADrawable *drawable = dynamic_cast<ADrawable *>(object);
 	IUpdatable *updatable = dynamic_cast<IUpdatable *>(object);
-	object->init(this);
+	_mutex->lock();
 	if (drawable)
 		addDrawable(drawable);
 	if (updatable)
 		addUpdatable(updatable);
+	_mutex->unlock();
 }
 
 const VideoMode &Window::getBestVideoMode() const
@@ -92,10 +114,12 @@ void Window::run()
 	do 
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		_mutex->lock();
 		for (std::list<IUpdatable *>::iterator it = _updatableObjects.begin() ; it != _updatableObjects.end() ; ++it)
 			(*it)->update();
 		for (std::list<ADrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
 			(*it)->internal_draw();
+		_mutex->unlock();
 		glfwSwapBuffers();
 	}
 	while (!_input.isPressed(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED));
@@ -108,10 +132,16 @@ void Window::setClearColor(Color color) const
 
 Window::~Window(void)
 {
+	for (std::list<IThread<std::pair<Window &, IObject *> *> *>::iterator it = _loadingThreads.begin() ; it != _loadingThreads.end() ; ++it)
+	{
+		(*it)->cancel();
+		delete (*it);
+	}
 	for (std::list<ADrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
 	{
 		(*it)->unload();
 		delete (*it);
 	}
+	delete _mutex;
 	glfwTerminate();
 }
