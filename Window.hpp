@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
 #include "VideoFlags.hpp"
@@ -30,7 +30,8 @@ private:
 	VideoFlags _flags;
 	std::vector<VideoMode> _modes;
 	VideoMode _desktopMode;
-	const Input _input;
+	Input _input;
+	GLFWwindow *_window;
 protected:
 	void addDrawable(ADrawable *drawable);
 	void addUpdatable(IUpdatable *updatable);
@@ -44,7 +45,7 @@ public:
 	const VideoMode &getBestVideoMode() const;
 	const VideoMode &getDesktopVideoMode() const;
 	const std::vector<VideoMode> &getVideoModes() const;
-	void openWindow(int width = -1, int height = -1, int bpp = -1, bool isFullScreen = true) const;
+	void openWindow(int width = -1, int height = -1, bool isFullScreen = true);
 	void run();
 	const VideoFlags &getVideoFlags() const {return _flags;}
 	VideoFlags &getVideoFlags() {return _flags;}

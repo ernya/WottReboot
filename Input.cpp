@@ -5,19 +5,20 @@ Input::Input(void)
 {
 }
 
-void Input::init() const
+void Input::init(GLFWwindow *win)
 {
-	glfwEnable(GLFW_STICKY_KEYS);
+	_window = win;
+	glfwSetInputMode(win, GLFW_STICKY_KEYS, GL_TRUE);
 }
 
 int Input::getKey(int key) const
 {
-	return (glfwGetKey(key));
+	return (glfwGetKey(_window, key));
 }
 
 bool Input::isPressed(int key) const
 {
-	return (glfwGetKey(key) == GLFW_PRESS);
+	return (glfwGetKey(_window, key) == GLFW_PRESS);
 }
 
 Input::~Input(void)

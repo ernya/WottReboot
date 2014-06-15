@@ -1,26 +1,21 @@
 #include "Window.hpp"
 
-Window::Window(void) : _modes(VIDEO_MODES_LIMIT, VideoMode(this)), _desktopMode(VideoMode(this)), _input()
+Window::Window(void) : _modes(), _desktopMode(VideoMode(this)), _input(), _window(NULL)
 {
 	if (!glfwInit())
 		throw std::runtime_error("Could not initialize GLFW (glfwInit() returned 0) ! Exiting...");
 	glewExperimental = true;
-	GLFWvidmode *vidmode = new GLFWvidmode[VIDEO_MODES_LIMIT];
-	int nb_modes = glfwGetVideoModes(vidmode, VIDEO_MODES_LIMIT);
+	int nb_modes;
+	const GLFWvidmode *vidmode = glfwGetVideoModes(glfwGetPrimaryMonitor(), &nb_modes);
 	_modes.resize(nb_modes, VideoMode(this));
 	for (int i = 0 ; i < nb_modes ; ++i)
 	{
-		_modes[i].setHeight(vidmode[i].Height);
-		_modes[i].setWidth(vidmode[i].Width);
-		_modes[i].setBpp(vidmode[i].RedBits + vidmode[i].BlueBits + vidmode[i].GreenBits);
+		_modes[i].setHeight(vidmode[i].height);
+		_modes[i].setWidth(vidmode[i].width);
 	}
-	delete [](vidmode);
-	GLFWvidmode *desktopmode = new GLFWvidmode();
-	glfwGetDesktopMode(desktopmode);
-	_desktopMode.setWidth(desktopmode->Width);
-	_desktopMode.setHeight(desktopmode->Height);
-	_desktopMode.setBpp(desktopmode->BlueBits + desktopmode->RedBits + desktopmode->GreenBits);
-	delete (desktopmode);
+	const GLFWvidmode *desktopmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	_desktopMode.setWidth(desktopmode->width);
+	_desktopMode.setHeight(desktopmode->height);
 }
 
 void Window::addDrawable(ADrawable *drawable)
@@ -60,29 +55,29 @@ const std::vector<VideoMode> &Window::getVideoModes() const
 	return (_modes);
 }
 
-void Window::openWindow(int width, int height, int bpp, bool isFullScreen) const
+void Window::openWindow(int width, int height, bool isFullScreen)
 {
-	if (width == -1 && height == -1 && bpp == -1)
+	if (width == -1 && height == -1)
 	{
 		const VideoMode current = getDesktopVideoMode();
 		current.createWindow();
 		return ;
 	}
-	_input.init();
-	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, _flags.getFSAASamples());
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, OPENGL_VERSION_MAJOR);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, OPENGL_VERSION_MINOR);
-	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, !_flags.isResizable());
-	glfwOpenWindowHint(GLFW_REFRESH_RATE, _flags.getRefreshRate());
-	if (!glfwOpenWindow(width, height, 0, 0, 0, 0, bpp, 0, isFullScreen ? GLFW_FULLSCREEN : GLFW_WINDOW))
+	glfwWindowHint(GLFW_SAMPLES, _flags.getFSAASamples());
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_VERSION_MAJOR);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OPENGL_VERSION_MINOR);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, _flags.isResizable());
+	glfwWindowHint(GLFW_REFRESH_RATE, _flags.getRefreshRate());
+	if (!(_window = glfwCreateWindow(width, height, _flags.getTitle().c_str(), isFullScreen ? glfwGetPrimaryMonitor() : NULL, NULL)))
 	{
 		glfwTerminate();
 		throw std::runtime_error("Could not open window (glfwOpenWindow() returned 0) ! Exiting...");
 	}
-
-	glfwSetWindowTitle(_flags.getTitle().c_str());
-	if (glewInit() != GLEW_OK)
+	glfwMakeContextCurrent(_window);
+	_input.init(_window);
+	int ret = glewInit();
+	if (ret != GLEW_OK)
 		throw std::runtime_error("Could not initalize GLEW (glewInit() did not return GLEW_OK) ! Exiting...");	
 }
 
@@ -95,9 +90,10 @@ void Window::run()
 			(*it)->update();
 		for (std::list<ADrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
 			(*it)->internal_draw();
-		glfwSwapBuffers();
+		glfwPollEvents();
+		glfwSwapBuffers(_window);
 	}
-	while (!_input.isPressed(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED));
+	while (!_input.isPressed(GLFW_KEY_ESCAPE));
 }
 
 void Window::setClearColor(Color color) const

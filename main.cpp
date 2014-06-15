@@ -13,7 +13,6 @@ int	main(int argc, char **argv)
 		flags.setRefreshRate(VideoFlags::DEFAULT_REFRESH_RATE);
 		flags.setResizable(true);
 		VideoMode toto(&_win);
-		toto.setBpp(32);
 		toto.setHeight(768);
 		toto.setWidth(1024);
 		toto.createWindow();
