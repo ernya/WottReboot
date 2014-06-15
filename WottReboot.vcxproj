@@ -84,6 +84,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="GeometryHandler.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Logging.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="Scale.cpp" />
@@ -98,6 +99,7 @@
     <ClCompile Include="VideoFlags.cpp" />
     <ClCompile Include="VideoMode.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="WinMutex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AObject.hpp" />
@@ -108,11 +110,14 @@
     <ClInclude Include="I3DMatrix.hpp" />
     <ClInclude Include="I3DObject.hpp" />
     <ClInclude Include="ADrawable.hpp" />
+    <ClInclude Include="IMutex.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="IObject.hpp" />
     <ClInclude Include="IProgram.hpp" />
     <ClInclude Include="IShader.hpp" />
+    <ClInclude Include="IThread.hpp" />
     <ClInclude Include="IUpdatable.hpp" />
+    <ClInclude Include="Logging.hpp" />
     <ClInclude Include="Program.hpp" />
     <ClInclude Include="Rotation.hpp" />
     <ClInclude Include="Scale.hpp" />
@@ -128,6 +133,8 @@
     <ClInclude Include="VideoFlags.hpp" />
     <ClInclude Include="VideoMode.hpp" />
     <ClInclude Include="Window.hpp" />
+    <ClInclude Include="WinMutex.hpp" />
+    <ClInclude Include="WinThread.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

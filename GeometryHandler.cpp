@@ -54,7 +54,7 @@ void GeometryHandler::generateVBD()
 
 I3DObject &GeometryHandler::applyMatrix(const I3DMatrix &matrix)
 {
-	for (int i = 0 ; i < _points.size() * 4 ; i += 4)
+	for (unsigned int i = 0 ; i < _points.size() * 4 ; i += 4)
 	{
 		glm::vec4 point = matrix.getMatrix() * glm::vec4(_vbd[i], _vbd[i + 1], _vbd[i + 2], _vbd[i + 3]);
 		_vbd[i] = point[0];

@@ -1,5 +1,6 @@
-#include "VertexBuffer.hpp"
 #include <iostream>
+#include "VertexBuffer.hpp"
+#include "Logging.hpp"
 
 VertexBuffer::VertexBuffer(int size)
 {
@@ -15,8 +16,8 @@ void VertexBuffer::bind(int id) const
 
 void VertexBuffer::data(void *data, int datasize) const
 {
-	std::cerr << "VertexBuffer::data(void*, int) : Use of this constructor is HIGHLY discouraged, as it is not object-oriented. Please use VertexBuffer::data(const VertexBufferData &) instead !" << std::endl;
-	std::cerr << "VertexBuffer::data(void*, int) : Use of deprecated function." << std::endl;
+	Logging::warning("VertexBuffer::data(void*, int) : Use of this constructor is HIGHLY discouraged, as it is not object-oriented. Please use VertexBuffer::data(const VertexBufferData &) instead !");
+	Logging::warning("VertexBuffer::data(void*, int) : Use of deprecated function.");
 	glBufferData(GL_ARRAY_BUFFER, datasize, data, GL_STATIC_DRAW);
 }
 
