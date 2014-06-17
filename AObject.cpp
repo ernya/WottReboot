@@ -1,4 +1,23 @@
+#include "ADrawable.hpp"
+#include "IUpdatable.hpp"
 #include "AObject.hpp"
+
+void AObject::addSubObject(AObject *obj, Window *win)
+{
+	ADrawable *drawable = dynamic_cast<ADrawable *>(obj);
+	IUpdatable *updatable = dynamic_cast<IUpdatable *>(obj);
+
+	obj->_parent = this;
+	obj->init(win);
+	if (drawable)
+	{
+		_subdrawables.push_back(drawable);
+		drawable->load();
+	}
+	if (updatable)
+		_subupdatables.push_back(updatable);
+	
+}
 
 void AObject::translate(glm::vec3 vector)
 {

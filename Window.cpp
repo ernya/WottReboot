@@ -26,7 +26,7 @@ Window::Window(void) : _modes(), _desktopMode(VideoMode(this)), _input(), _windo
 
 void Window::addDrawable(ADrawable *drawable)
 {
-	drawable->load();
+	drawable->internal_load();
 	_drawableObjects.push_back(drawable);
 }
 
@@ -112,7 +112,7 @@ void Window::run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		_mutex->lock();
 		for (std::list<IUpdatable *>::iterator it = _updatableObjects.begin() ; it != _updatableObjects.end() ; ++it)
-			(*it)->update();
+			(*it)->internal_update();
 		for (std::list<ADrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
 			(*it)->internal_draw();
 		_mutex->unlock();
@@ -144,7 +144,7 @@ Window::~Window(void)
 	}
 	for (std::list<ADrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
 	{
-		(*it)->unload();
+		(*it)->internal_unload();
 		delete (*it);
 	}
 	delete _mutexLoading;
