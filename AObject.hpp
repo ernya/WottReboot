@@ -17,6 +17,9 @@ private:
 	Translation _translation;
 	Scale _scale;
 	Rotation _rotation;
+	Translation _aggregatetranslation;
+	Scale _aggregatescale;
+	Rotation _aggregaterotation;
 	AObject *_parent;
 protected:
 	std::list<ADrawable *> _subdrawables;
@@ -36,20 +39,35 @@ protected:
 	void setScale(float x, float y, float z);
 	void applyTransformations()
 	{
+		_aggregatetranslation.setX(0);
+		_aggregatetranslation.setY(0);
+		_aggregatetranslation.setZ(0);
+		_aggregaterotation.setX(0);
+		_aggregaterotation.setY(0);
+		_aggregaterotation.setZ(0);
+		_aggregatescale.setX(1);
+		_aggregatescale.setY(1);
+		_aggregatescale.setZ(1);
 		_geometry.generateVBD();
 		if (_parent)
 		{
-			applyMatrix(_parent->_scale);
-			applyMatrix(_scale);
-			applyMatrix(_parent->_rotation);
-			applyMatrix(_rotation);
-			applyMatrix(_parent->_translation);
-			applyMatrix(_translation);
+			_aggregatescale.applyMatrix(_parent->_aggregatescale);
+			_aggregatescale.applyMatrix(_scale);
+			applyMatrix(_aggregatescale);
+			_aggregaterotation.applyMatrix(_parent->_aggregaterotation);
+			_aggregaterotation.applyMatrix(_rotation);
+			applyMatrix(_aggregaterotation);
+			_aggregatetranslation.applyMatrix(_parent->_aggregatetranslation);
+			_aggregatetranslation.applyMatrix(_translation);
+			applyMatrix(_aggregatetranslation);
 		}
 		else
 		{
+			_aggregatescale = _scale;
 			applyMatrix(_scale);
+			_aggregaterotation = _rotation;
 			applyMatrix(_rotation);
+			_aggregatetranslation = _translation;
 			applyMatrix(_translation);
 		}
 	}
