@@ -8,18 +8,15 @@ class AObject;
 
 class ADrawable : public virtual AObject
 {
-	
-
-
 	void internal_draw() 
 	{
 		applyTransformations();
+		if (_isLoaded)
+			draw();
 		for (std::list<ADrawable *>::iterator it = _subdrawables.begin(); it != _subdrawables.end(); ++it)
 		{
 			(*it)->internal_draw();
 		}
-		if (_isLoaded)
-			draw();
 	}
 
 	void internal_load()
