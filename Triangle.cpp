@@ -3,8 +3,9 @@
 #include "Scale.hpp"
 #include "Rotation.hpp"
 
-Triangle::Triangle()
+Triangle::Triangle(float x, float y, float z)
 {
+	translate(x, y, z);
 }
 
 void Triangle::init(Window *win)
@@ -26,7 +27,7 @@ void Triangle::load()
 	_geometry.add(glm::vec3(-1.0f, -1.0f, 0.0f));
 	_geometry.add(glm::vec3(1.0f, -1.0f, 0.0f));
 	_geometry.add(glm::vec3(0.0f, 1.0f, 0.0f));
-	setScale(0.1f, 0.1f, 0.1f);
+//	setScale(0.1f, 0.1f, 0.1f);
 	_win->execOnRenderingThread(callback, Window::ExecutionPriority::HIGHEST, this);
 }
 
@@ -46,12 +47,12 @@ void Triangle::internalLoad()
 	_va->disable();
 	_vbo.unbind();
 	_vao.unbind();
+	_isLoaded = true;
 }
 
 void Triangle::update()
 {
-	rotate(0, 0, 0.9f);
-	translate(0.01f, 0, 0);
+	translate(0.001f, 0, 0);
 	applyTransformations();
 	_vao.bind();
 	_vbo.bind();
@@ -73,6 +74,7 @@ void Triangle::draw()
 
 void Triangle::unload()
 {
+	delete _va;
 }
 
 I3DObject &Triangle::applyMatrix(const I3DMatrix &matrix)
@@ -83,7 +85,6 @@ I3DObject &Triangle::applyMatrix(const I3DMatrix &matrix)
 
 Triangle::~Triangle()
 {
-	delete _va;
 	delete _vs;
 	delete _fs;
 	delete _program;

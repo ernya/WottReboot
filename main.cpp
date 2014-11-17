@@ -17,8 +17,11 @@ int	main(int argc, char **argv)
 		toto.setHeight(768);
 		toto.setWidth(1024);
 		toto.createWindow();
-//		_win.getDesktopVideoMode().createWindow();
-		_win.addObject(new Triangle());
+		Triangle *tri = new Triangle(-0.75, 0, 0);
+		Triangle *tri2 = new Triangle(0, 0, 0);
+		_win.addObject(tri);
+		tri->addSubObject(tri2, &_win);
+		tri2->addSubObject(new Triangle(0, 0, 0), &_win);
 		_win.setClearColor(Color(0, 0, 0.4f, 1.0f));
 		_win.run();
 	}

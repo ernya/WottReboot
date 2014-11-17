@@ -22,7 +22,7 @@ private:
 	SimpleVertexShader *_vs;
 	Program *_program;
 public :
-	Triangle();
+	Triangle(float x = 0, float y = 0, float z = 0);
 	void internalLoad();
 	void init(Window *win);
 	void load();
