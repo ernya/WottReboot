@@ -10,17 +10,19 @@ SRC=	Input.cpp\
 	VertexBufferData.cpp\
 	VideoFlags.cpp\
 	VideoMode.cpp\
+	UnixMutex.cpp\
 	Window.cpp \
 	Color.cpp \
 	GeometryHandler.cpp\
 	AObject.cpp \
 	Rotation.cpp \
 	Scale.cpp \
-	Translation.cpp
+	Translation.cpp \
+	Logging.cpp
 
 OBJ=$(SRC:.cpp=.o)
-CXXFLAGS= -W -Wall -g -std=c++11
-LDFLAGS= -lGL -lGLU -lGLEW -lglfw
+CXXFLAGS= -W -Wall -g -std=c++11 -I/opt/X11/include -I/usr/local/include
+LDFLAGS= -framework OpenGL -lGLEW -lglfw3 -framework Cocoa -framework IOKit -framework CoreVideo
 
 $(NAME): $(OBJ)
 	g++ $(OBJ) $(LDFLAGS) -o $(NAME)

@@ -1,13 +1,23 @@
 #include "Window.hpp"
 #include "Logging.hpp"
 
+#ifdef _WIN32
 #include "WinThread.hpp" 
 #include "WinMutex.hpp" 
+#else
+#include "UnixThread.hpp"
+#include "UnixMutex.hpp"
+#endif
 
 Window::Window(void) : _modes(), _desktopMode(VideoMode(this)), _input(), _window(NULL)
 {
+#ifdef _WIN32
 	_mutex = new WinMutex();
 	_mutexLoading = new WinMutex();
+#else
+	_mutex = new UnixMutex();
+	_mutexLoading = new UnixMutex();
+#endif
 	if (!glfwInit())
 		throw std::runtime_error("Could not initialize GLFW (glfwInit() returned 0) ! Exiting...");
 	glewExperimental = true;
@@ -46,7 +56,11 @@ void Window::addObject(IObject *object)
 {
 	object->init(this);
 	std::pair<Window &, IObject *> *pair = new std::pair<Window &, IObject *>(*this, object);
-    WinThread<std::pair<Window &, IObject *>*> *tmp = new WinThread<std::pair<Window &, IObject *>*>();
+#ifdef _WIN32
+	WinThread<std::pair<Window &, IObject *>*> *tmp = new WinThread<std::pair<Window &, IObject *>*>();
+#else
+	UnixThread<std::pair<Window &, IObject *>*> *tmp = new UnixThread<std::pair<Window &, IObject *>*>();
+#endif	
 	tmp->run(addObjectInternal, pair);
 	_loadingThreads.push_back(tmp);
 	
@@ -90,13 +104,14 @@ void Window::openWindow(int width, int height, bool isFullScreen)
 	glfwWindowHint(GLFW_SAMPLES, _flags.getFSAASamples());
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_VERSION_MAJOR);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OPENGL_VERSION_MINOR);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Mac OS X Fix
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, _flags.isResizable());
 	glfwWindowHint(GLFW_REFRESH_RATE, _flags.getRefreshRate());
 	if (!(_window = glfwCreateWindow(width, height, _flags.getTitle().c_str(), isFullScreen ? glfwGetPrimaryMonitor() : NULL, NULL)))
 	{
 		glfwTerminate();
-		throw std::runtime_error("Could not open window (glfwOpenWindow() returned 0) ! Exiting...");
+		throw std::runtime_error("Could not open window (glfwCreateWindow() returned 0) ! Exiting...");
 	}
 	glfwMakeContextCurrent(_window);
 	_input.init(_window);
