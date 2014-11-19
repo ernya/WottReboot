@@ -4,6 +4,7 @@ SRC=	Input.cpp\
 	SimpleFragmentShader.cpp\
 	SimpleVertexShader.cpp\
 	Triangle.cpp\
+	Cube.cpp\
 	VertexArray.cpp\
 	VertexAttrib.cpp\
 	VertexBuffer.cpp\
@@ -18,7 +19,8 @@ SRC=	Input.cpp\
 	Rotation.cpp \
 	Scale.cpp \
 	Translation.cpp \
-	Logging.cpp
+	Logging.cpp\
+	Uniform.cpp
 
 OBJ=$(SRC:.cpp=.o)
 CXXFLAGS= -W -Wall -g -std=c++11 -I/opt/X11/include -I/usr/local/include

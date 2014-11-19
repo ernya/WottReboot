@@ -41,9 +41,9 @@ void Triangle::internalLoad()
 	_va = new VertexAttrib(*_program, "vertexPosition_modelspace");
 	_vao.bind();
 	_vbo.bind();
-	_vbo.data(_geometry.getVectorBufferData());
+	_vbo.data(_geometry.getVertexBufferData());
 	_va->enable();
-	_va->pointer(_geometry.getVectorBufferData());
+	_va->geometryPointer(_geometry.getVertexBufferData());
 	_va->disable();
 	_vbo.unbind();
 	_vao.unbind();
@@ -56,7 +56,7 @@ void Triangle::update()
 	applyTransformations();
 	_vao.bind();
 	_vbo.bind();
-	_vbo.data(_geometry.getVectorBufferData());
+	_vbo.data(_geometry.getVertexBufferData());
 	_vbo.unbind();
 	_vao.unbind();
 }

@@ -49,4 +49,8 @@ public:
 	{
 		return glGetAttribLocation(_id, attrib.c_str());
 	}
+  GLuint getUniformLocation(const std::string &attrib) const
+  {
+    return glGetUniformLocation(_id, attrib.c_str());
+  }
 };

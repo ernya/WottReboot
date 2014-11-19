@@ -17,7 +17,8 @@ public:
 	void add(const glm::vec3 &pt);
 	void set(glm::vec4 &pt, int idx);
 	void set(glm::vec3 &pt, int idx);
-	VertexBufferData<float> &getVectorBufferData();
+	VertexBufferData<float> &getVertexBufferData();
 	void generateVBD();
 	I3DObject &applyMatrix(const I3DMatrix &matrix);
+  int getSize() const;
 };

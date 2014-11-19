@@ -118,6 +118,7 @@ void Window::openWindow(int width, int height, bool isFullScreen)
 	int ret = glewInit();
 	if (ret != GLEW_OK)
 		throw std::runtime_error("Could not initalize GLEW (glewInit() did not return GLEW_OK) ! Exiting...");	
+	glEnable (GL_DEPTH_TEST);
 }
 
 void Window::run()

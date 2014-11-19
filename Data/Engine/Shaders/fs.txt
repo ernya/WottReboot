@@ -1,7 +1,14 @@
 #version 330 core
-out vec3 color;
- 
+out vec4 outputColor;
+
 void main()
 {
-    color = vec3(1,0,0);
+    float lerpValue = gl_FragCoord.y / 500.0f;
+    float lerpValue2 = gl_FragCoord.x / 500.0f;
+    float lerpValue3 = (gl_FragCoord.z + 1) / 2 ;
+
+    outputColor = mix(vec4(1.0f, 0.0f, 0.0f, 1.0f),
+        vec4(0.2f, 0.0f, 0.0f, 1.0f), lerpValue) + 
+mix(vec4(0.0f, 1.0f, 0.0f, 1.0f),
+        vec4(0.0f, 0.2f, 0.0f, 1.0f), lerpValue2);
 }

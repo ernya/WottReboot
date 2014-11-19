@@ -37,6 +37,7 @@ public:
 
 	VertexBufferData(int components = 4, int size = 0) : _vertices(size)
 	{
+	  (void)components;
 		throw std::runtime_error("Wrong template type for VertexBufferData");
 	}
 

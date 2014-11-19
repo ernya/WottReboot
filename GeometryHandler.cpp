@@ -1,8 +1,13 @@
 #include "I3DMatrix.hpp"
 #include "GeometryHandler.hpp"
 
-GeometryHandler::GeometryHandler(int size) : _vbd(4, size * 4), _points(size)
+GeometryHandler::GeometryHandler(int size) : _points(size), _vbd(4, size * 4)
 {
+}
+
+int GeometryHandler::getSize() const
+{
+  return _points.size();
 }
 
 void GeometryHandler::setSize(int size)
@@ -35,7 +40,7 @@ void GeometryHandler::set(glm::vec3 &pt, int idx)
 	_points[idx] = glm::vec4(pt, 1);
 }
 
-VertexBufferData<float> &GeometryHandler::getVectorBufferData()
+VertexBufferData<float> &GeometryHandler::getVertexBufferData()
 {
 	return _vbd;
 }

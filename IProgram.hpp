@@ -18,5 +18,6 @@ public:
 	virtual void useProgram() const = 0;
 	virtual void stopUseProgram() const = 0;
 	virtual GLuint getAttribLocation(const std::string &attrib) const = 0;
+	virtual GLuint getUniformLocation(const std::string &attrib) const = 0;
 	virtual ~IProgram() {}
 };

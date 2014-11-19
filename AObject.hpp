@@ -3,6 +3,7 @@
 #include <list>
 #include "IObject.hpp"
 #include "I3DObject.hpp"
+#include "TransformationMatrix.hpp"
 #include "Translation.hpp"
 #include "Scale.hpp"
 #include "Rotation.hpp"
@@ -49,26 +50,29 @@ protected:
 		_aggregatescale.setY(1);
 		_aggregatescale.setZ(1);
 		_geometry.generateVBD();
+		glm::mat4 tfMatrix(1.0);
 		if (_parent)
 		{
 			_aggregatescale.applyMatrix(_parent->_aggregatescale);
 			_aggregatescale.applyMatrix(_scale);
-			applyMatrix(_aggregatescale);
+			tfMatrix = _aggregatescale.getMatrix() * tfMatrix;
 			_aggregaterotation.applyMatrix(_parent->_aggregaterotation);
 			_aggregaterotation.applyMatrix(_rotation);
-			applyMatrix(_aggregaterotation);
+			tfMatrix = _aggregaterotation.getMatrix() * tfMatrix;
 			_aggregatetranslation.applyMatrix(_parent->_aggregatetranslation);
 			_aggregatetranslation.applyMatrix(_translation);
-			applyMatrix(_aggregatetranslation);
+			tfMatrix = _aggregatetranslation.getMatrix() * tfMatrix;
+			applyMatrix(TransformationMatrix(tfMatrix));
 		}
 		else
 		{
 			_aggregatescale = _scale;
-			applyMatrix(_scale);
+			tfMatrix = _scale.getMatrix() * tfMatrix;
 			_aggregaterotation = _rotation;
-			applyMatrix(_rotation);
+			tfMatrix = _rotation.getMatrix() * tfMatrix;
 			_aggregatetranslation = _translation;
-			applyMatrix(_translation);
+			tfMatrix = _translation.getMatrix() * tfMatrix;
+			applyMatrix(TransformationMatrix(tfMatrix));
 		}
 	}
 public:

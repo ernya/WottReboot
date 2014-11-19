@@ -22,7 +22,7 @@ public:
 	void disable() const;
 	GLuint getId() const;
 	template<typename T>
-	void pointer(const VertexBufferData<T> &_vbd, void *offset = NULL) const
+	void geometryPointer(const VertexBufferData<T> &_vbd, void *offset = NULL) const
 	{
 		glVertexAttribPointer(_id, _vbd.getComponents(), _vbd.getType(), GL_FALSE, 0, offset);
 	}
