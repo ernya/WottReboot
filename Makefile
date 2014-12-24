@@ -20,7 +20,8 @@ SRC=	Input.cpp\
 	Scale.cpp \
 	Translation.cpp \
 	Logging.cpp\
-	Uniform.cpp
+	Uniform.cpp\
+	Camera.cpp
 
 OBJ=$(SRC:.cpp=.o)
 CXXFLAGS= -W -Wall -g -std=c++11 -I/opt/X11/include -I/usr/local/include

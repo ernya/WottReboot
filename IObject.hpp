@@ -4,7 +4,8 @@ class Window;
 
 class IObject
 {
+	virtual void internal_init(Window *win) = 0;
 public: 
-	virtual void init(Window *win) = 0;
 	virtual ~IObject() {};
+	friend class Window;
 };

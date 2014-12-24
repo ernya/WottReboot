@@ -16,6 +16,7 @@
 #include "VideoMode.hpp"
 #include "Input.hpp"
 #include "Color.hpp"
+#include "Camera.hpp"
 
 using namespace glm;
 
@@ -43,6 +44,8 @@ private:
 	std::list<IThread<std::pair<Window &, IObject *> *> *> _loadingThreads;
 	std::list<IUpdatable *> _updatableObjects;
 	std::list<ADrawable *> _drawableObjects;
+  std::list<Camera *> _cameras;
+  Camera *_mainCamera;
 	VideoFlags _flags;
 	std::vector<VideoMode> _modes;
 	VideoMode _desktopMode;
@@ -68,6 +71,9 @@ public:
 	virtual ~Window(void);
 	const std::list<IUpdatable *> &getUpdatables() const { return _updatableObjects; }
 	const std::list<ADrawable *> &getDrawables() const { return _drawableObjects; }
+  const std::list<Camera *> &getCameras() const { return _cameras; }
+  Camera *getMainCamera() { return _mainCamera; }
+  void setMainCamera(Camera *camera);
 	const VideoMode &getBestVideoMode() const;
 	const VideoMode &getDesktopVideoMode() const;
 	const std::vector<VideoMode> &getVideoModes() const;
@@ -76,8 +82,9 @@ public:
 	const VideoFlags &getVideoFlags() const {return _flags;}
 	VideoFlags &getVideoFlags() {return _flags;}
 	void addObject(IObject *object);
+  void addCamera(Camera *camera);
 	void addObjectBlocking(IObject *object);
-	void setClearColor(Color color) const;
+  void setClearColor(Color color) const;
 };
 
 

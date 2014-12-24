@@ -26,6 +26,17 @@ void Uniform::fromI3DMatrix(const I3DMatrix &matrix) const
   fromMat4(matrix.getMatrix());
 }
 
+void Uniform::fromCamera(const Camera *matrix) const
+{
+  std::cerr << matrix << std::endl;
+      if (matrix == NULL)
+       {
+      fromMat4(glm::mat4(1.0));
+       }
+      else
+	fromMat4(matrix->getMatrix());
+}
+
 Uniform::~Uniform()
 {
 }

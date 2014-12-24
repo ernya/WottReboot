@@ -2,6 +2,7 @@
 #include "Window.hpp"
 #include "Triangle.hpp"
 #include "Cube.hpp"
+#include "Camera.hpp"
 #include "Logging.hpp"
 
 int	main(int argc, char **argv)
@@ -20,13 +21,11 @@ int	main(int argc, char **argv)
 		toto.setHeight(768);
 		toto.setWidth(1024);
 		toto.createWindow();
+		Camera *cam = new Camera(0, 0, -1.0f);
+		cam->lookAt(glm::vec3(0, 0, 0));
+		_win.addCamera(cam);
 		Cube *cube = new Cube(0,0,0);
 		_win.addObject(cube);
-		/*		Triangle *tri = new Triangle(-0.75, 0, 0);
-		Triangle *tri2 = new Triangle(0, 0, 0);
-		_win.addObject(tri);
-		tri->addSubObject(tri2, &_win);
-		tri2->addSubObject(new Triangle(0, 0, 0), &_win);*/
 		_win.setClearColor(Color(0, 0, 0.4f, 1.0f));
 		_win.run();
 	}

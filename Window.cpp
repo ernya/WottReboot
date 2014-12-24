@@ -54,7 +54,7 @@ static int addObjectInternal(std::pair<Window &, IObject *> *_arg)
 
 void Window::addObject(IObject *object)
 {
-	object->init(this);
+	object->internal_init(this);
 	std::pair<Window &, IObject *> *pair = new std::pair<Window &, IObject *>(*this, object);
 #ifdef _WIN32
 	WinThread<std::pair<Window &, IObject *>*> *tmp = new WinThread<std::pair<Window &, IObject *>*>();
@@ -64,6 +64,22 @@ void Window::addObject(IObject *object)
 	tmp->run(addObjectInternal, pair);
 	_loadingThreads.push_back(tmp);
 	
+}
+
+void Window::setMainCamera(Camera *camera)
+{
+  if (std::find(_cameras.begin(), _cameras.end(), camera) == _cameras.end())
+    {
+      _cameras.push_back(camera);
+    }
+  _mainCamera = camera;
+}
+
+void Window::addCamera(Camera *camera)
+{
+  if (_cameras.size() == 0)
+    _mainCamera = camera;
+  _cameras.push_back(camera);
 }
 
 void Window::addObjectBlocking(IObject *object)
@@ -123,6 +139,13 @@ void Window::openWindow(int width, int height, bool isFullScreen)
 
 void Window::run()
 {
+  if (_cameras.size() == 0)
+    {
+      Logging::error("No cameras defined, will create default camera on (0,0,0), please consider adding a camera");
+      addCamera(new Camera(0,0,0));
+      _mainCamera->lookAt(glm::vec3(0,0,1));
+    }
+
 	do 
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

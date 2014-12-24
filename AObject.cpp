@@ -2,6 +2,12 @@
 #include "IUpdatable.hpp"
 #include "AObject.hpp"
 
+void AObject::internal_init(Window *win)
+{
+  _camera = win->getMainCamera();
+  init(win);
+}
+
 void AObject::addSubObject(AObject *obj, Window *win)
 {
 	ADrawable *drawable = dynamic_cast<ADrawable *>(obj);

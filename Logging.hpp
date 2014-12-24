@@ -68,12 +68,12 @@ private:
 	static const std::map<error_level, std::string> createErrorHeaders()
 	{
 		std::map<error_level, std::string> errorHeaders;
-		errorHeaders[E_DEBUG] = std::string("[DEBUG]");
-		errorHeaders[E_INFO] = std::string("[INFO]");
-		errorHeaders[E_WARNING] = std::string("[WARNING]");
-		errorHeaders[E_ERROR] = std::string("[ERROR]");
-		errorHeaders[E_SEVERE] = std::string("[SEVERE]");
-		errorHeaders[E_FATAL] = std::string("[FATAL]");
+		errorHeaders[E_DEBUG] = std::string("[DEBUG]  : ");
+		errorHeaders[E_INFO] = std::string("[INFO]   : ");
+		errorHeaders[E_WARNING] = std::string("[WARNING]: ");
+		errorHeaders[E_ERROR] = std::string("[ERROR]  : ");
+		errorHeaders[E_SEVERE] = std::string("[SEVERE] : ");
+		errorHeaders[E_FATAL] = std::string("[FATAL]  : ");
 		return errorHeaders;
 	}
 	static const std::map<error_level, std::string> _errorHeaders;

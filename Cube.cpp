@@ -3,7 +3,8 @@
 #include "Scale.hpp"
 #include "Rotation.hpp"
 #include <glm/gtx/string_cast.hpp>
-Cube::Cube(float x, float y, float z) : _modelMatrix(NULL)
+
+Cube::Cube(float x, float y, float z) : _modelMatrix(NULL), _camera(NULL)
 {
 	translate(x, y, z);
 }
@@ -46,6 +47,7 @@ void Cube::internalLoad()
 	_program->link();
 	_va = new VertexAttrib(*_program, "vertexPosition_modelspace");
 	_modelMatrix = new Uniform(*_program, "modelMatrix");
+	_viewMatrix = new Uniform(*_program, "viewMatrix");
 	_vao.bind();
 	_vbo.bind();
 	_vbo.data(_geometry.getVertexBufferData());
@@ -84,6 +86,7 @@ void Cube::unload()
 {
 	delete _va;
 	delete _modelMatrix;
+	delete _viewMatrix;
 }
 
 I3DObject &Cube::applyMatrix(const I3DMatrix &matrix)
@@ -92,6 +95,9 @@ I3DObject &Cube::applyMatrix(const I3DMatrix &matrix)
     {
       _program->useProgram();
       _modelMatrix->fromI3DMatrix(matrix);
+      if (_camera == NULL)
+	  _camera = _win->getMainCamera();
+      _viewMatrix->fromCamera(_camera);
       _program->stopUseProgram();
     }
   return *this;

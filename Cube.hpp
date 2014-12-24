@@ -16,8 +16,10 @@ class Cube : public ADrawable, public IUpdatable
 {
 private:
 	Window *_win;
-	VertexAttrib *_va;
+  Camera *_camera;
+  VertexAttrib *_va;
   Uniform *_modelMatrix;
+  Uniform *_viewMatrix;
   VertexArray _vao;
 	VertexBuffer _vbo;
 	SimpleFragmentShader *_fs;

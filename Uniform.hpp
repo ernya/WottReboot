@@ -11,6 +11,7 @@
 #include "VertexBufferData.hpp"
 #include "Logging.hpp"
 #include "I3DMatrix.hpp"
+#include "Camera.hpp"
 #include "IProgram.hpp"
 
 class Uniform
@@ -24,5 +25,6 @@ public:
   Uniform(const IProgram &program, const std::string &uniformName);
   GLuint getId() const;
   void fromI3DMatrix(const I3DMatrix &matrix) const;
+  void fromCamera(const Camera *camera) const;
   ~Uniform();
 };

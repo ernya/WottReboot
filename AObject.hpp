@@ -8,6 +8,7 @@
 #include "Scale.hpp"
 #include "Rotation.hpp"
 #include "GeometryHandler.hpp"
+#include "Camera.hpp"
 
 class ADrawable;
 class IUpdatable;
@@ -21,10 +22,11 @@ private:
 	Translation _aggregatetranslation;
 	Scale _aggregatescale;
 	Rotation _aggregaterotation;
-	AObject *_parent;
+  AObject *_parent;
 protected:
 	std::list<ADrawable *> _subdrawables;
 	std::list<IUpdatable *> _subupdatables;
+  Camera *_camera;
 	GeometryHandler _geometry;
 	void translate(glm::vec3 vector);
 	void translate(float x, float y, float z);
@@ -75,7 +77,10 @@ protected:
 			applyMatrix(TransformationMatrix(tfMatrix));
 		}
 	}
+
+  void internal_init(Window *win);
 public:
 	AObject() : _parent(NULL) {}
 	void addSubObject(AObject *obj, Window *win);
+	virtual void init(Window *win) = 0;
 };
