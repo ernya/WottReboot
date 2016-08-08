@@ -1,7 +1,8 @@
 #include "I3DMatrix.hpp"
+#include "Logging.hpp"
 #include "GeometryHandler.hpp"
 
-GeometryHandler::GeometryHandler(int size) : _points(size), _vbd(4, size * 4)
+GeometryHandler::GeometryHandler(int size) : _points(size), _vbd(4, size * 4), _generated(false)
 {
 }
 
@@ -45,20 +46,26 @@ VertexBufferData<float> &GeometryHandler::getVertexBufferData()
 	return _vbd;
 }
 
-void GeometryHandler::generateVBD()
+void GeometryHandler::generateVBD(bool forceRegenerate)
 {
-	_vbd.resize(_points.size() * 4);
-	int i = 0;
-	for (std::vector<glm::vec4>::iterator it = _points.begin() ; it != _points.end() ; ++it)
+	if (forceRegenerate || !_generated)
 	{
-		for (int j = 0 ; j < 4 ; ++j)
-			_vbd[i + j] = (*it)[j];
-		i += 4;
+		_vbd.resize(_points.size() * 4);
+		int i = 0;
+		for (std::vector<glm::vec4>::iterator it = _points.begin(); it != _points.end(); ++it)
+		{
+			for (int j = 0; j < 4; ++j)
+				_vbd[i + j] = (*it)[j];
+			i += 4;
+		}
+		_generated = true;
 	}
 }
 
 I3DObject &GeometryHandler::applyMatrix(const I3DMatrix &matrix)
 {
+	Logging::severe("[PERFORMANCE] You are applying a matrix on all vertices of an object. This type of operation should be done on shaders.");
+
 	for (unsigned int i = 0 ; i < _points.size() * 4 ; i += 4)
 	{
 		glm::vec4 point = matrix.getMatrix() * glm::vec4(_vbd[i], _vbd[i + 1], _vbd[i + 2], _vbd[i + 3]);

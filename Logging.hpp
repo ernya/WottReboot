@@ -25,7 +25,7 @@ public:
 
 	static void log(error_level lvl, const std::string &message)
 	{
-		if (lvl > E_ERROR)
+		if (lvl >= E_DEBUG)
 			std::cout <<  _errorHeaders.at(lvl) << message << std::endl;
 		if (_file->fail())
 		{

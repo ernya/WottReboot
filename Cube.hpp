@@ -12,7 +12,7 @@
 #include "VertexAttrib.hpp"
 #include "I3DObject.hpp"
 
-class Cube : public ADrawable, public IUpdatable
+class Cube : public ADrawable, public AUpdatable
 {
 private:
 	Window *_win;
@@ -30,7 +30,7 @@ public :
 	void internalLoad();
 	void init(Window *win);
 	void load();
-	void draw();
+	void draw(const glm::mat4 &viewProjectionMatrix);
 	void update();
 	void unload();
 	I3DObject &applyMatrix(const I3DMatrix &matrix);

@@ -8,14 +8,17 @@ class AObject;
 
 class ADrawable : public virtual AObject
 {
-	void internal_draw() 
+	void internal_draw(const glm::vec3 &parentPosition, const glm::mat4 &vpMatrix) 
 	{
-		applyTransformations();
+		_geometry.generateVBD();
+		applyTransformations(parentPosition);
+
+		glm::mat4 newmatrix = vpMatrix * _localPositionMatrix;
 		if (_isLoaded)
-			draw();
+			draw(newmatrix);
 		for (std::list<ADrawable *>::iterator it = _subdrawables.begin(); it != _subdrawables.end(); ++it)
 		{
-			(*it)->internal_draw();
+			(*it)->internal_draw(_worldPosition, newmatrix);
 		}
 	}
 
@@ -38,7 +41,7 @@ protected:
 public:
 	ADrawable() : _isLoaded(false) {}
 	virtual void load() = 0;
-	virtual void draw() = 0;
+	virtual void draw(const glm::mat4 &viewProjectionMatrix) = 0;
 	virtual void unload() = 0;
 	virtual ~ADrawable() {};
 	friend class Window;

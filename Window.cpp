@@ -40,7 +40,7 @@ void Window::addDrawable(ADrawable *drawable)
 	_drawableObjects.push_back(drawable);
 }
 
-void Window::addUpdatable(IUpdatable *updatable)
+void Window::addUpdatable(AUpdatable *updatable)
 {
 	_updatableObjects.push_back(updatable);
 }
@@ -85,7 +85,7 @@ void Window::addCamera(Camera *camera)
 void Window::addObjectBlocking(IObject *object)
 {
 	ADrawable *drawable = dynamic_cast<ADrawable *>(object);
-	IUpdatable *updatable = dynamic_cast<IUpdatable *>(object);
+	AUpdatable *updatable = dynamic_cast<AUpdatable *>(object);
 	_mutex->lock();
 	if (drawable)
 		addDrawable(drawable);
@@ -146,14 +146,21 @@ void Window::run()
       _mainCamera->lookAt(glm::vec3(0,0,1));
     }
 
+  long long int frameCount = 1;
+
 	do 
 	{
+		std::stringstream ss = std::stringstream();
+		ss << "Start frame ";
+		ss << frameCount;
+
+		Logging::debug(ss.str());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		_mutex->lock();
-		for (std::list<IUpdatable *>::iterator it = _updatableObjects.begin() ; it != _updatableObjects.end() ; ++it)
+		for (std::list<AUpdatable *>::iterator it = _updatableObjects.begin() ; it != _updatableObjects.end() ; ++it)
 			(*it)->internal_update();
 		for (std::list<ADrawable *>::iterator it = _drawableObjects.begin() ; it != _drawableObjects.end() ; ++it)
-			(*it)->internal_draw();
+			(*it)->internal_draw(glm::vec3(), glm::mat4());
 		_mutex->unlock();
 		glfwPollEvents();
 		glfwSwapBuffers(_window);
@@ -165,6 +172,7 @@ void Window::run()
 			_pendingRenderingActions[ExecutionPriority::HIGHEST].erase(ittmp);
 		}
 		_mutexLoading->unlock();
+		frameCount++;
 	}
 	while (!_input.isPressed(GLFW_KEY_ESCAPE));
 }

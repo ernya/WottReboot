@@ -2,6 +2,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Rotation.hpp"
 
+#include <iostream>
+
 I3DObject &Rotation::applyMatrix(const I3DMatrix &matrix) 
 {
 	_matrix = matrix.getMatrix() * _matrix;

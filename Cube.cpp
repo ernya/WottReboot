@@ -62,8 +62,7 @@ void Cube::internalLoad()
 void Cube::update()
 {
   //translate(0.00f, 0.001f, 0);
-  rotate(1, 1, 0);
-	applyTransformations();
+  rotate(0.001, 0.001, 0);
 	_vao.bind();
 	_vbo.bind();
 	_vbo.data(_geometry.getVertexBufferData());
@@ -71,9 +70,13 @@ void Cube::update()
 	_vao.unbind();
 }
 
-void Cube::draw()
+void Cube::draw(const glm::mat4 &viewProjectionMatrix)
 {
+	if (_camera == NULL)
+		_camera = _win->getMainCamera();
 	_program->useProgram();
+	_viewMatrix->fromCamera(_camera);
+	_modelMatrix->fromMat4(viewProjectionMatrix);
 	_vao.bind();
 	_va->enable();
 	VertexArray::drawArrays(VertexArray::TRIANGLE_STRIP, _geometry.getSize());
@@ -91,7 +94,8 @@ void Cube::unload()
 
 I3DObject &Cube::applyMatrix(const I3DMatrix &matrix)
 {
-  if (_modelMatrix)
+	Logging::severe("[PERFORMANCE] Function disabled.");
+  /*if (_modelMatrix)
     {
       _program->useProgram();
       _modelMatrix->fromI3DMatrix(matrix);
@@ -99,7 +103,7 @@ I3DObject &Cube::applyMatrix(const I3DMatrix &matrix)
 	  _camera = _win->getMainCamera();
       _viewMatrix->fromCamera(_camera);
       _program->stopUseProgram();
-    }
+    }*/
   return *this;
 }
 

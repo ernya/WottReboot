@@ -28,10 +28,9 @@ void Uniform::fromI3DMatrix(const I3DMatrix &matrix) const
 
 void Uniform::fromCamera(const Camera *matrix) const
 {
-  std::cerr << matrix << std::endl;
       if (matrix == NULL)
        {
-      fromMat4(glm::mat4(1.0));
+		fromMat4(glm::mat4(1.0));
        }
       else
 	fromMat4(matrix->getMatrix());

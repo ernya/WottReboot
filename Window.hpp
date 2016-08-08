@@ -42,7 +42,7 @@ private:
 	IMutex *_mutex;
 	IMutex *_mutexLoading;
 	std::list<IThread<std::pair<Window &, IObject *> *> *> _loadingThreads;
-	std::list<IUpdatable *> _updatableObjects;
+	std::list<AUpdatable *> _updatableObjects;
 	std::list<ADrawable *> _drawableObjects;
   std::list<Camera *> _cameras;
   Camera *_mainCamera;
@@ -54,7 +54,7 @@ private:
 	std::map<ExecutionPriority, std::list<std::pair<void (*)(void *), void *> > > _pendingRenderingActions;
 protected:
 	void addDrawable(ADrawable *drawable);
-	void addUpdatable(IUpdatable *updatable);
+	void addUpdatable(AUpdatable *updatable);
 public:
 	template <typename Argument>
 	void execOnRenderingThread(void (*ptr)(Argument), ExecutionPriority priority, Argument arg)
@@ -69,7 +69,7 @@ public:
 	static const int OPENGL_VERSION_MINOR_FALLBACK = 0;
 	Window(void);
 	virtual ~Window(void);
-	const std::list<IUpdatable *> &getUpdatables() const { return _updatableObjects; }
+	const std::list<AUpdatable *> &getUpdatables() const { return _updatableObjects; }
 	const std::list<ADrawable *> &getDrawables() const { return _drawableObjects; }
   const std::list<Camera *> &getCameras() const { return _cameras; }
   Camera *getMainCamera() { return _mainCamera; }

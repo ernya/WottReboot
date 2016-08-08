@@ -24,8 +24,10 @@ int	main(int argc, char **argv)
 		Camera *cam = new Camera(0, 0, -1.0f);
 		cam->lookAt(glm::vec3(0, 0, 0));
 		_win.addCamera(cam);
-		Cube *cube = new Cube(0,0,0);
-		_win.addObject(cube);
+		Triangle *triangle = new Triangle(0.5,0,1);
+		Triangle *triangle2 = new Triangle(0.5, 0, 0);
+		triangle->addSubObject(triangle2, &_win);
+		_win.addObject(triangle);
 		_win.setClearColor(Color(0, 0, 0.4f, 1.0f));
 		_win.run();
 	}

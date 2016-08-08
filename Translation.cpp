@@ -2,7 +2,6 @@
 
 I3DObject &Translation::applyMatrix(const I3DMatrix &matrix) 
 {
-	_matrix = matrix.getMatrix() * _matrix;
 	return *this;
 };
 
@@ -25,6 +24,7 @@ Translation::Translation(float x, float y, float z)
 	_matrix[3][0] = x;
 	_matrix[3][1] = y;
 	_matrix[3][2] = z;
+	_vector = glm::vec3(x, y, z);
 }
 
 void Translation::add(float x, float y, float z)
@@ -32,6 +32,7 @@ void Translation::add(float x, float y, float z)
 	_matrix[3][0] += x;
 	_matrix[3][1] += y;
 	_matrix[3][2] += z;
+	_vector += glm::vec3(x, y, z);
 }
 
 void Translation::add(const glm::vec3 &vec)

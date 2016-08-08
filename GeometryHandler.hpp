@@ -9,6 +9,7 @@ class GeometryHandler : public I3DObject
 {
 	std::vector<glm::vec4> _points;
 	VertexBufferData<float> _vbd;
+	bool _generated;
 public:
 	GeometryHandler(int size = 0);
 	void setSize(int size);
@@ -18,7 +19,7 @@ public:
 	void set(glm::vec4 &pt, int idx);
 	void set(glm::vec3 &pt, int idx);
 	VertexBufferData<float> &getVertexBufferData();
-	void generateVBD();
+	void generateVBD(bool forceRegenerate = false);
 	I3DObject &applyMatrix(const I3DMatrix &matrix);
   int getSize() const;
 };
